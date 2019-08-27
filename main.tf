@@ -59,13 +59,14 @@ resource "aws_autoscaling_group" "ecs" {
   load_balancers       = ["${var.load_balancers}"]
   enabled_metrics      = ["${var.enabled_metrics}"]
 
-  tags = [{
-    key                 = "Name"
-    value               = "${var.name} ${var.tagName}"
-    propagate_at_launch = true
-  }]
-
-  tags = ["${var.extra_tags}"]
+  tags = [
+    "${var.extra_tags}",
+    {
+      key                 = "Name"
+      value               = "${var.name} ${var.tagName}"
+      propagate_at_launch = true
+      }
+    ]
 
   lifecycle {
     create_before_destroy = true
